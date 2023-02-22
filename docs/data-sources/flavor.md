@@ -16,7 +16,7 @@ The name is the name of the Flavor as it appears in the G-PORTAL Cloud Control P
 ## Example Usage
 
 ```terraform
-data "gpcloud_flavor" "example" {
+data "gpcloud_flavour" "example" {
   name          = "epyc.7282.128"
   project_id    = "c6900340-4e8a-4d30-9897-24c108fe0462"
   datacenter_id = "b194dd6f-21ea-44e0-98b7-b7ac434430d3"
