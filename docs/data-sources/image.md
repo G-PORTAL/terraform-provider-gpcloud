@@ -26,7 +26,7 @@ data "gpcloud_image" "example" {
 
 ### Required
 
-- `flavor_id` (String) Flavor ID
+- `flavour_id` (String) Flavour ID
 - `name` (String) Name of the image
 
 ### Read-Only

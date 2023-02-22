@@ -37,7 +37,7 @@ resource "gpcloud_node" "example" {
 
 - `billing_period` (String) Billing Configuration
 - `datacenter_id` (String) Datacenter ID the node is located in
-- `flavor_id` (String) Node Description
+- `flavour_id` (String) Node Description
 - `fqdn` (String) Fully Qualified Domain Name of the node
 - `image_id` (String) Image ID to install the node with
 - `project_id` (String) Node FQDN
