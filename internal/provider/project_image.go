@@ -3,7 +3,6 @@ package provider
 import (
 	cloudv1 "buf.build/gen/go/gportal/gportal-cloud/protocolbuffers/go/gpcloud/api/cloud/v1"
 	"context"
-	"errors"
 	"fmt"
 	"github.com/G-PORTAL/gpcloud-go/pkg/gpcloud/client"
 	"github.com/G-PORTAL/terraform-provider-gpcloud/internal/gpcloudvalidator"
@@ -201,7 +200,7 @@ func (r *ProjectImage) Update(ctx context.Context, req resource.UpdateRequest, r
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	//TODO: Handle project image updates
-	resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update image"))
+	resp.Diagnostics.AddError("Client Error", "Unable to update image")
 }
 
 func (r *ProjectImage) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -236,13 +235,13 @@ func (r *ProjectImage) getSourceReader(source string) (io.ReadCloser, error) {
 	if strings.HasPrefix(source, "http") {
 		imageSource, err := http.Get(source)
 		if err != nil {
-			return nil, errors.New(fmt.Sprintf("Unable to download image from source: %s", err))
+			return nil, fmt.Errorf("Unable to download image from source: %s", err)
 		}
 		return imageSource.Body, nil
 	}
 	imageSource, err := os.Open(source)
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("Unable to open image source: %s", err))
+		return nil, fmt.Errorf("unable to open image source: %s", err)
 	}
 	return imageSource, nil
 }

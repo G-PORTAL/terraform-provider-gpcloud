@@ -179,7 +179,7 @@ func (r *SSHKey) Read(ctx context.Context, req resource.ReadRequest, resp *resou
 }
 
 func (r *SSHKey) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update ssh key"))
+	resp.Diagnostics.AddError("Client Error", "Unable to update ssh key")
 }
 
 func (r *SSHKey) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

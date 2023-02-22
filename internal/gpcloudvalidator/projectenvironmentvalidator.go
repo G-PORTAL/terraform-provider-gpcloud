@@ -14,12 +14,12 @@ type ProjectEnvironmentValidator struct {
 
 // Description returns a plain text description of the validator's behavior, suitable for a practitioner to understand its impact.
 func (v ProjectEnvironmentValidator) Description(ctx context.Context) string {
-	return fmt.Sprintf("Validates the project environment.")
+	return "Validates the project environment."
 }
 
 // MarkdownDescription returns a markdown formatted description of the validator's behavior, suitable for a practitioner to understand its impact.
 func (v ProjectEnvironmentValidator) MarkdownDescription(ctx context.Context) string {
-	return fmt.Sprintf("Ensures a valid project environment is provided")
+	return "Ensures a valid project environment is provided"
 }
 
 // ValidateString runs the main validation logic of the validator, reading configuration data out of `req` and updating `resp` with diagnostics.
@@ -28,7 +28,7 @@ func (v ProjectEnvironmentValidator) ValidateString(ctx context.Context, req val
 	if req.ConfigValue.IsUnknown() || req.ConfigValue.IsNull() {
 		return
 	}
-	if slices.Contains(validEnvironments, req.ConfigValue.ValueString()) == false {
+	if !slices.Contains(validEnvironments, req.ConfigValue.ValueString()) {
 		resp.Diagnostics.AddAttributeError(
 			req.Path,
 			"Invalid Project Environment",

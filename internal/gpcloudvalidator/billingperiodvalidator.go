@@ -14,12 +14,12 @@ type BillingPeriodValidator struct {
 
 // Description returns a plain text description of the validator's behavior, suitable for a practitioner to understand its impact.
 func (v BillingPeriodValidator) Description(ctx context.Context) string {
-	return fmt.Sprintf("Validates the billing period.")
+	return "Validates the billing period."
 }
 
 // MarkdownDescription returns a markdown formatted description of the validator's behavior, suitable for a practitioner to understand its impact.
 func (v BillingPeriodValidator) MarkdownDescription(ctx context.Context) string {
-	return fmt.Sprintf("Ensures a valid billing period is provided")
+	return "Ensures a valid billing period is provided"
 }
 
 // ValidateString runs the main validation logic of the validator, reading configuration data out of `req` and updating `resp` with diagnostics.
@@ -28,7 +28,7 @@ func (v BillingPeriodValidator) ValidateString(ctx context.Context, req validato
 	if req.ConfigValue.IsUnknown() || req.ConfigValue.IsNull() {
 		return
 	}
-	if slices.Contains(validBillingPeriods, req.ConfigValue.ValueString()) == false {
+	if !slices.Contains(validBillingPeriods, req.ConfigValue.ValueString()) {
 		resp.Diagnostics.AddAttributeError(
 			req.Path,
 			"Invalid Billing Period",

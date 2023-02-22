@@ -186,7 +186,9 @@ func (r *Node) Create(ctx context.Context, req resource.CreateRequest, resp *res
 	}
 	if !data.SSHKeyIDs.IsNull() {
 		for _, sshKeyID := range data.SSHKeyIDs.Elements() {
-			createRequest.SshKeyIds = append(createRequest.SshKeyIds, sshKeyID.(types.String).ValueString())
+			if sshKeyIDString, ok := sshKeyID.(types.String); ok {
+				createRequest.SshKeyIds = append(createRequest.SshKeyIds, sshKeyIDString.ValueString())
+			}
 		}
 	}
 	if !data.UserData.IsNull() {
@@ -206,7 +208,7 @@ func (r *Node) Create(ctx context.Context, req resource.CreateRequest, resp *res
 	timeoutAfter := time.Now().Add(5 * time.Minute)
 	for nodeIP == nil {
 		if time.Now().After(timeoutAfter) {
-			resp.Diagnostics.AddError("Timeout Error", fmt.Sprintf("Unable to get node IP address"))
+			resp.Diagnostics.AddError("Timeout Error", "Unable to get node IP address")
 			return
 		}
 		time.Sleep(time.Second * 10)
@@ -228,7 +230,9 @@ func (r *Node) Create(ctx context.Context, req resource.CreateRequest, resp *res
 			Tags:      map[string]string{},
 		}
 		for s, value := range data.Tags.Elements() {
-			updateRequest.Tags[s] = value.(types.String).ValueString()
+			if stringValue, ok := value.(types.String); ok {
+				updateRequest.Tags[s] = stringValue.ValueString()
+			}
 		}
 		updateResponse, err := r.client.CloudClient().UpdateNode(context.Background(), updateRequest)
 		if err != nil {
@@ -288,7 +292,9 @@ func (r *Node) Update(ctx context.Context, req resource.UpdateRequest, resp *res
 	}
 
 	for s, value := range data.Tags.Elements() {
-		updateRequest.Tags[s] = value.(types.String).ValueString()
+		if stringValue, ok := value.(types.String); ok {
+			updateRequest.Tags[s] = stringValue.ValueString()
+		}
 	}
 
 	updateResponse, err := r.client.CloudClient().UpdateNode(context.Background(), updateRequest)
