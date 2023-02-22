@@ -28,7 +28,7 @@ type ImageDataSource struct {
 // ImageDataSourceModel describes the data source data model.
 type ImageDataSourceModel struct {
 	Name                types.String `tfsdk:"name"`
-	FlavorID            types.String `tfsdk:"flavor_id"`
+	FlavourID           types.String `tfsdk:"flavour_id"`
 	AuthenticationTypes types.List   `tfsdk:"authentication_types"`
 
 	Id types.String `tfsdk:"id"`
@@ -49,8 +49,8 @@ func (d *ImageDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				MarkdownDescription: "Name of the image",
 				Required:            true,
 			},
-			"flavor_id": schema.StringAttribute{
-				MarkdownDescription: "Flavor ID",
+			"flavour_id": schema.StringAttribute{
+				MarkdownDescription: "Flavour ID",
 				Required:            true,
 				Validators: []validator.String{
 					gpcloudvalidator.UUIDStringValidator{},
@@ -99,7 +99,7 @@ func (d *ImageDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 	imageList, err := d.client.CloudClient().ListPublicImages(context.Background(), &cloudv1.ListPublicImagesRequest{
-		FlavourId: data.FlavorID.ValueString(),
+		FlavourId: data.FlavourID.ValueString(),
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Error while fetching image list", err.Error())

@@ -14,19 +14,19 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ datasource.DataSource = &FlavorDataSource{}
+var _ datasource.DataSource = &FlavourDataSource{}
 
-func NewFlavor() datasource.DataSource {
-	return &FlavorDataSource{}
+func NewFlavour() datasource.DataSource {
+	return &FlavourDataSource{}
 }
 
-// FlavorDataSource defines the data source implementation.
-type FlavorDataSource struct {
+// FlavourDataSource defines the data source implementation.
+type FlavourDataSource struct {
 	client *client.Client
 }
 
-// FlavorDataSourceModel describes the flavor data model.
-type FlavorDataSourceModel struct {
+// FlavourDataSourceModel describes the flavour data model.
+type FlavourDataSourceModel struct {
 	Name         types.String `tfsdk:"name"`
 	ProjectID    types.String `tfsdk:"project_id"`
 	DatacenterID types.String `tfsdk:"datacenter_id"`
@@ -34,29 +34,29 @@ type FlavorDataSourceModel struct {
 	Id types.String `tfsdk:"id"`
 }
 
-func (d *FlavorDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_flavor"
+func (d *FlavourDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_flavour"
 }
 
-func (d *FlavorDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *FlavourDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "The flavor defines the machines hardware specs. Its UUID can be used to choose the hardware to be installed.\n\n" +
-			"The name is the name of the Flavor as it appears in the G-PORTAL Cloud Control Panel (example: xeon.2288g.128).\n",
+		MarkdownDescription: "The flavour defines the machines hardware specs. Its UUID can be used to choose the hardware to be installed.\n\n" +
+			"The name is the name of the Flavour as it appears in the G-PORTAL Cloud Control Panel (example: xeon.2288g.128).\n",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				MarkdownDescription: "Name of the Flavor",
+				MarkdownDescription: "Name of the Flavour",
 				Required:            true,
 			},
 			"project_id": schema.StringAttribute{
-				MarkdownDescription: "Project ID to consider for flavor availability",
+				MarkdownDescription: "Project ID to consider for flavour availability",
 				Required:            true,
 				Validators: []validator.String{
 					gpcloudvalidator.UUIDStringValidator{},
 				},
 			},
 			"datacenter_id": schema.StringAttribute{
-				MarkdownDescription: "Datacenter ID to consider for flavor availability",
+				MarkdownDescription: "Datacenter ID to consider for flavour availability",
 				Required:            true,
 				Validators: []validator.String{
 					gpcloudvalidator.UUIDStringValidator{},
@@ -64,13 +64,13 @@ func (d *FlavorDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			},
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Flavor ID",
+				MarkdownDescription: "Flavour ID",
 			},
 		},
 	}
 }
 
-func (d *FlavorDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *FlavourDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -89,28 +89,28 @@ func (d *FlavorDataSource) Configure(ctx context.Context, req datasource.Configu
 	d.client = client
 }
 
-func (d *FlavorDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data FlavorDataSourceModel
+func (d *FlavourDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data FlavourDataSourceModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {
 		return
 	}
-	flavorList, err := d.client.CloudClient().ListProjectFlavours(context.Background(), &cloudv1.ListProjectFlavoursRequest{
+	flavourList, err := d.client.CloudClient().ListProjectFlavours(context.Background(), &cloudv1.ListProjectFlavoursRequest{
 		Id:           data.ProjectID.ValueString(),
 		DatacenterId: data.DatacenterID.ValueString(),
 	})
 	if err != nil {
-		resp.Diagnostics.AddError("Error fetching flavor list", err.Error())
+		resp.Diagnostics.AddError("Error fetching flavour list", err.Error())
 		return
 	}
-	for _, flavor := range flavorList.Flavours {
-		if strings.EqualFold(flavor.Name, data.Name.ValueString()) {
-			data.Id = types.StringValue(flavor.Id)
-			data.Name = types.StringValue(flavor.Name)
+	for _, flavour := range flavourList.Flavours {
+		if strings.EqualFold(flavour.Name, data.Name.ValueString()) {
+			data.Id = types.StringValue(flavour.Id)
+			data.Name = types.StringValue(flavour.Name)
 			resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 			return
 		}
 	}
-	resp.Diagnostics.AddError("Flavor not found", fmt.Sprintf("Flavor %s not found for project %s", data.Name.ValueString(), data.ProjectID.ValueString()))
+	resp.Diagnostics.AddError("Flavour not found", fmt.Sprintf("Flavour %s not found for project %s", data.Name.ValueString(), data.ProjectID.ValueString()))
 }

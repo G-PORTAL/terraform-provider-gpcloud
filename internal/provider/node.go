@@ -35,7 +35,7 @@ type Node struct {
 // NodeModel describes the resource data model.
 type NodeModel struct {
 	ProjectID     types.String `tfsdk:"project_id"`
-	FlavorID      types.String `tfsdk:"flavor_id"`
+	FlavourID     types.String `tfsdk:"flavour_id"`
 	DatacenterID  types.String `tfsdk:"datacenter_id"`
 	Password      types.String `tfsdk:"password"`
 	SSHKeyIDs     types.List   `tfsdk:"ssh_key_ids"`
@@ -65,7 +65,7 @@ func (r *Node) Schema(ctx context.Context, req resource.SchemaRequest, resp *res
 					gpcloudvalidator.UUIDStringValidator{},
 				},
 			},
-			"flavor_id": schema.StringAttribute{
+			"flavour_id": schema.StringAttribute{
 				MarkdownDescription: "Node Description",
 				Required:            true,
 				Validators: []validator.String{
@@ -174,7 +174,7 @@ func (r *Node) Create(ctx context.Context, req resource.CreateRequest, resp *res
 	createRequest := &cloudv1.CreateNodeRequest{
 		Fqdns:         []string{data.FQDN.ValueString()},
 		ProjectId:     data.ProjectID.ValueString(),
-		FlavourId:     data.FlavorID.ValueString(),
+		FlavourId:     data.FlavourID.ValueString(),
 		DatacenterId:  data.DatacenterID.ValueString(),
 		ImageId:       data.ImageID.ValueString(),
 		BillingPeriod: cloudv1.BillingPeriod(cloudv1.BillingPeriod_value[data.BillingPeriod.ValueString()]),
@@ -348,7 +348,7 @@ func (nodeModel *NodeModel) getPrimaryIP(node *cloudv1.Node) *string {
 
 func (nodeModel *NodeModel) write(node *cloudv1.Node) {
 	nodeModel.ProjectID = types.StringValue(node.ProjectId)
-	nodeModel.FlavorID = types.StringValue(node.Flavour.Id)
+	nodeModel.FlavourID = types.StringValue(node.Flavour.Id)
 	nodeModel.DatacenterID = types.StringValue(node.Datacenter.Id)
 	nodeModel.FQDN = types.StringValue(node.Fqdn)
 	nodeModel.BillingPeriod = types.StringValue(node.BillingPeriod.String())
