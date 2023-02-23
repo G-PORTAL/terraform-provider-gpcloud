@@ -46,7 +46,7 @@ terraform {
     gpcloud = {
       source = "G-PORTAL/gpcloud"
       # Ensure to use the latest version of the provider
-      version = "0.1.1"
+      version = "0.1.2"
     }
   }
 }
