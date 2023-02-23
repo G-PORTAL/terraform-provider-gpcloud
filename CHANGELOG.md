@@ -2,6 +2,7 @@
 
 Added:
 - New Authentication method: Service Account (Client Credentials)
+- Added Data Source `gpcloud_project` for read-only access to projects
 
 Changed:
 - Updated resource and datasource documentation

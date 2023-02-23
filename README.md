@@ -10,13 +10,10 @@ Implemented Resources:
 - [x] `gpcloud_sshkey` - The GPCloud SSH-Key resource
 
 Implemented Data sources:
+- [x] `gpcloud_project` - The GPCloud Project data source (read-only)
 - [x] `gpcloud_flavour` - The GPCloud Flavour data source
 - [x] `gpcloud_datacenter` - The GPCloud Datacenter data source
 - [x] `gpcloud_image` - The GPCloud Image data source (Official images)
-- [ ] `gpcloud_billing_address` - The GPCloud Billing Address data source
-  - needs to get imported from GPCloud, can be used to assign an existing billing address to a Project
-- [ ] `gpcloud_credit_card` - The GPCloud Credit Card data source
-  - needs to get imported from GPCloud, can be used to assign an existing payment method to a Project
 
 
 ## Requirements

@@ -132,6 +132,7 @@ func (p *GPCloudProvider) DataSources(ctx context.Context) []func() datasource.D
 		NewFlavour,
 		NewImage,
 		NewDataCenter,
+		NewProjectDS,
 	}
 }
 
