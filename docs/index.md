@@ -3,12 +3,27 @@
 page_title: "gpcloud Provider"
 subcategory: ""
 description: |-
-  
+  This Terraform Provider uses the gpcloud-go https://github.com/G-PORTAL/gpcloud-go library to interact with the GPCloud API.
+  Authentication
+  Authentication will is possible using a Service Account that is created within the GPCloud Panel.
+  When using a service account, you need to provide the client_id and client_secret which can be created within the GPCloud Panel.
+  The service account behaves like its own user, all actions performed by terraform are made as service account user.
+  The service account is not able to create / update projects, instead an existing projects need to be manually created and imported using terraform import command.
+  All user-resources (e.g. ssh keys) are created on the service account user.
 ---
 
 # gpcloud Provider
 
+This Terraform Provider uses the [gpcloud-go](https://github.com/G-PORTAL/gpcloud-go) library to interact with the GPCloud API.
 
+## Authentication
+Authentication will is possible using a Service Account that is created within the GPCloud Panel.
+
+When using a service account, you need to provide the `client_id` and `client_secret` which can be created within the GPCloud Panel.
+
+The service account behaves like its own user, all actions performed by terraform are made as service account user.
+The service account is not able to create / update projects, instead an existing projects need to be manually created and imported using `terraform import` command.
+All user-resources (e.g. ssh keys) are created on the service account user.
 
 ## Example Usage
 
@@ -16,8 +31,6 @@ description: |-
 provider "gpcloud" {
   client_id     = "<example-client-id>"
   client_secret = "<example-client-secret>"
-  username      = "<example-user-email>"
-  password      = "<example-user-password>"
 }
 ```
 
@@ -28,10 +41,10 @@ provider "gpcloud" {
 
 - `client_id` (String) Client ID
 - `client_secret` (String) Client Secret
-- `password` (String) Password
-- `username` (String) User Email Address
 
 ### Optional
 
 - `endpoint` (String) GRPC Address to connect to
+- `password` (String) Password
 - `realm` (String) Keycloak Realm
+- `username` (String) User Email Address
