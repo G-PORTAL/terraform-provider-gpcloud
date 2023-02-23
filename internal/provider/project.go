@@ -45,7 +45,9 @@ func (r *Project) Metadata(ctx context.Context, req resource.MetadataRequest, re
 func (r *Project) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "Project",
+		MarkdownDescription: "The datasource project represents the Projects provided by GPCloud.\n\n" +
+			"Projects can be used to separate different deployments from each other.\n" +
+			"Each project can have its own billing address, payment methods, members or environments.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

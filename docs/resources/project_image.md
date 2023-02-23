@@ -3,12 +3,17 @@
 page_title: "gpcloud_project_image Resource - terraform-provider-gpcloud"
 subcategory: ""
 description: |-
-  ProjectImage
+  In case the Images provided by GPCloud are not sufficient Project Images can be used.
+  Project Images are custom OS Images provided by the customer. For details about what kind of images can be used
+  please check out the documentation here https://docs.g-portal.cloud/operations/custom-images/#uploading-images
 ---
 
 # gpcloud_project_image (Resource)
 
-ProjectImage
+In case the Images provided by GPCloud are not sufficient Project Images can be used.
+
+Project Images are custom OS Images provided by the customer. For details about what kind of images can be used
+please check out the documentation [here](https://docs.g-portal.cloud/operations/custom-images/#uploading-images)
 
 ## Example Usage
 

@@ -3,12 +3,15 @@
 page_title: "gpcloud_sshkey Resource - terraform-provider-gpcloud"
 subcategory: ""
 description: |-
-  SSH Key
+  The SSH Key can be referenced in Node deployment to be used for SSH access to the node.
+  In case the SSH Key already exists remotely, use the import command provided by terraform cli to import the resource into the state file.
 ---
 
 # gpcloud_sshkey (Resource)
 
-SSH Key
+The SSH Key can be referenced in Node deployment to be used for SSH access to the node.
+
+In case the SSH Key already exists remotely, use the `import` command provided by terraform cli to import the resource into the state file.
 
 ## Example Usage
 

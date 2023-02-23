@@ -117,7 +117,7 @@ func (r *Node) Schema(ctx context.Context, req resource.SchemaRequest, resp *res
 				},
 			},
 			"image_id": schema.StringAttribute{
-				MarkdownDescription: "Image ID to install the node with",
+				MarkdownDescription: "Image ID to install the node with (ID of gpcloud_image or gpcloud_project_image)",
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),

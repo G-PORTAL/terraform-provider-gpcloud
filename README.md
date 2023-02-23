@@ -1,25 +1,30 @@
 # Terraform Provider GPCloud
 
-_This template repository is built on the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework). The template repository built on the [Terraform Plugin SDK](https://github.com/hashicorp/terraform-plugin-sdk) can be found at [terraform-provider-scaffolding](https://github.com/hashicorp/terraform-provider-scaffolding). See [Which SDK Should I Use?](https://www.terraform.io/docs/plugin/which-sdk.html) in the Terraform documentation for additional information._
+This repository is a Terraform provider for [GPCloud](https://g-portal.cloud).
+It is intended to allow an Infrastructure-as-Code definition of the GPCloud services.
 
-This repository is a *template* for a [Terraform](https://www.terraform.io) provider. It is intended as a starting point for creating Terraform providers, containing:
+Implemented Resources:
+- [x] `gpcloud_node` - The GPCloud Node resource
+- [x] `gpcloud_project` - The GPCloud Project resource
+- [x] `gpcloud_project_image` - The GPCloud Project Image resource (Custom image)
+- [x] `gpcloud_sshkey` - The GPCloud SSH-Key resource
 
-- A resource and a data source (`internal/provider/`),
-- Examples (`examples/`) and generated documentation (`docs/`),
-- Miscellaneous meta files.
+Implemented Data sources:
+- [x] `gpcloud_flavour` - The GPCloud Flavour data source
+- [x] `gpcloud_datacenter` - The GPCloud Datacenter data source
+- [x] `gpcloud_image` - The GPCloud Image data source (Official images)
+- [ ] `gpcloud_billing_address` - The GPCloud Billing Address data source
+  - needs to get imported from GPCloud, can be used to assign an existing billing address to a Project
+- [ ] `gpcloud_credit_card` - The GPCloud Credit Card data source
+  - needs to get imported from GPCloud, can be used to assign an existing payment method to a Project
 
-These files contain boilerplate code that you will need to edit to create your own Terraform provider. Tutorials for creating Terraform providers can be found on the [HashiCorp Learn](https://learn.hashicorp.com/collections/terraform/providers-plugin-framework) platform. _Terraform Plugin Framework specific guides are titled accordingly._
-
-Please see the [GitHub template repository documentation](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) for how to create a new repository from this template on GitHub.
-
-Once you've written your provider, you'll want to [publish it on the Terraform Registry](https://www.terraform.io/docs/registry/providers/publishing.html) so that others can use it.
 
 ## Requirements
 
 - [Terraform](https://www.terraform.io/downloads.html) >= 1.0
 - [Go](https://golang.org/doc/install) >= 1.18
 
-## Building The Provider
+## Building The GPCloud Provider manually
 
 1. Clone the repository
 1. Enter the repository directory
@@ -29,36 +34,41 @@ Once you've written your provider, you'll want to [publish it on the Terraform R
 go install
 ```
 
-## Adding Dependencies
-
-This provider uses [Go modules](https://github.com/golang/go/wiki/Modules).
-Please see the Go documentation for the most up to date information about using Go modules.
-
-To add a new dependency `github.com/author/dependency` to your Terraform provider:
-
-```shell
-go get github.com/author/dependency
-go mod tidy
-```
-
-Then commit the changes to `go.mod` and `go.sum`.
-
 ## Using the provider
 
-Fill this in for each provider
+This provider is published on the [Terraform Registry](https://registry.terraform.io/providers/g-portal/gpcloud/latest).
+
+To use the GPCloud Terraform Provider, all you need to do is to reference the published provider inside your terraform configuration.
+
+```hcl
+terraform {
+  required_providers {
+    gpcloud = {
+      source = "G-PORTAL/gpcloud"
+      # Ensure to use the latest version of the provider
+      version = "0.1.1"
+    }
+  }
+}
+```
+
+The full documentation for the provider can be found [here](https://registry.terraform.io/providers/g-portal/gpcloud/latest/docs) or inside the `docs/` directory.
 
 ## Developing the Provider
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (see [Requirements](#requirements) above).
+If you wish to contribute to the GPCloud Terraform Provider, you'll first need [Go](http://www.golang.org) installed on your machine (see [Requirements](#requirements) above).
 
 To compile the provider, run `go install`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
 
-To generate or update documentation, run `go generate`.
+To reference the custom version of the provider built instead of the hosted one, setting `dev_override` inside the `$HOME/.terraformrc` file becomes useful:
 
-In order to run the full suite of Acceptance tests, run `make testacc`.
-
-*Note:* Acceptance tests create real resources, and often cost money to run.
-
-```shell
-make testacc
+```hcl
+provider_installation {
+  dev_overrides {
+    "registry.terraform.io/g-portal/gpcloud" = "~/go/bin"
+  }
+  direct {}
+}
 ```
+
+To generate or update documentation, run `go generate`.
