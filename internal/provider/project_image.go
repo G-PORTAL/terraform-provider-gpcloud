@@ -63,7 +63,9 @@ func (r *ProjectImage) Metadata(ctx context.Context, req resource.MetadataReques
 func (r *ProjectImage) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "ProjectImage",
+		MarkdownDescription: "In case the Images provided by GPCloud are not sufficient Project Images can be used.\n\n" +
+			"Project Images are custom OS Images provided by the customer. For details about what kind of images can be used\n" +
+			"please check out the documentation [here](https://docs.g-portal.cloud/operations/custom-images/#uploading-images)\n",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

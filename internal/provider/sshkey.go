@@ -48,7 +48,8 @@ func (r *SSHKey) Metadata(ctx context.Context, req resource.MetadataRequest, res
 func (r *SSHKey) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "SSH Key",
+		MarkdownDescription: "The SSH Key can be referenced in Node deployment to be used for SSH access to the node.\n\n" +
+			"In case the SSH Key already exists remotely, use the `import` command provided by terraform cli to import the resource into the state file.",
 
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{

@@ -3,12 +3,17 @@
 page_title: "gpcloud_project Resource - terraform-provider-gpcloud"
 subcategory: ""
 description: |-
-  Project
+  The datasource project represents the Projects provided by GPCloud.
+  Projects can be used to separate different deployments from each other.
+  Each project can have its own billing address, payment methods, members or environments.
 ---
 
 # gpcloud_project (Resource)
 
-Project
+The datasource project represents the Projects provided by GPCloud.
+
+Projects can be used to separate different deployments from each other.
+Each project can have its own billing address, payment methods, members or environments.
 
 ## Example Usage
 

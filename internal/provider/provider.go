@@ -40,6 +40,14 @@ func (p *GPCloudProvider) Metadata(ctx context.Context, req provider.MetadataReq
 
 func (p *GPCloudProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "This Terraform Provider uses the [gpcloud-go](https://github.com/G-PORTAL/gpcloud-go) library to interact with the GPCloud API.\n\n" +
+			"## Authentication\n" +
+			"Authentication will is possible using a Service Account that is created within the GPCloud Panel.\n\n" +
+			"When using a service account, you need to provide the `client_id` and `client_secret` which can be created within the GPCloud Panel.\n\n" +
+			"The service account behaves like its own user, all actions performed by terraform are made as service account user.\n" +
+			"The service account is not able to create / update projects, instead an existing projects need to be manually created and imported using `terraform import` command.\n" +
+			"All user-resources (e.g. ssh keys) are created on the service account user.\n",
+
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
 				MarkdownDescription: "GRPC Address to connect to",
@@ -55,11 +63,11 @@ func (p *GPCloudProvider) Schema(ctx context.Context, req provider.SchemaRequest
 			},
 			"username": schema.StringAttribute{
 				MarkdownDescription: "User Email Address",
-				Required:            true,
+				Optional:            true,
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: "Password",
-				Required:            true,
+				Optional:            true,
 			},
 			"realm": schema.StringAttribute{
 				MarkdownDescription: "Keycloak Realm",
@@ -88,13 +96,21 @@ func (p *GPCloudProvider) Configure(ctx context.Context, req provider.ConfigureR
 		realm = data.Realm.ValueString()
 	}
 
-	grpcOpts = append(grpcOpts, &auth.ProviderKeycloakUserPassword{
-		ClientID:     strings.Trim(data.ClientID.String(), "\""),
-		ClientSecret: strings.Trim(data.ClientSecret.String(), "\""),
-		Username:     strings.Trim(data.Username.String(), "\""),
-		Password:     strings.Trim(data.Password.String(), "\""),
-		Realm:        &realm,
-	})
+	if !data.Username.IsNull() && !data.Password.IsNull() {
+		grpcOpts = append(grpcOpts, &auth.ProviderKeycloakUserPassword{
+			ClientID:     strings.Trim(data.ClientID.String(), "\""),
+			ClientSecret: strings.Trim(data.ClientSecret.String(), "\""),
+			Username:     strings.Trim(data.Username.String(), "\""),
+			Password:     strings.Trim(data.Password.String(), "\""),
+			Realm:        &realm,
+		})
+	} else {
+		grpcOpts = append(grpcOpts, &auth.ProviderKeycloakClientAuth{
+			ClientID:     strings.Trim(data.ClientID.String(), "\""),
+			ClientSecret: strings.Trim(data.ClientSecret.String(), "\""),
+			Realm:        &realm,
+		})
+	}
 
 	// Example client configuration for data sources and resources
 	client, _ := client2.NewClient(grpcOpts...)
@@ -116,6 +132,7 @@ func (p *GPCloudProvider) DataSources(ctx context.Context) []func() datasource.D
 		NewFlavour,
 		NewImage,
 		NewDataCenter,
+		NewProjectDS,
 	}
 }
 

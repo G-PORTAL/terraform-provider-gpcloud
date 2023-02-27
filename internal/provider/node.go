@@ -45,6 +45,7 @@ type NodeModel struct {
 	ImageID       types.String `tfsdk:"image_id"`
 	IP            types.String `tfsdk:"ip"`
 	Tags          types.Map    `tfsdk:"tags"`
+	Status        types.String `tfsdk:"status"`
 	Id            types.String `tfsdk:"id"`
 }
 
@@ -117,7 +118,7 @@ func (r *Node) Schema(ctx context.Context, req resource.SchemaRequest, resp *res
 				},
 			},
 			"image_id": schema.StringAttribute{
-				MarkdownDescription: "Image ID to install the node with",
+				MarkdownDescription: "Image ID to install the node with (ID of gpcloud_image or gpcloud_project_image)",
 				Required:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -130,6 +131,10 @@ func (r *Node) Schema(ctx context.Context, req resource.SchemaRequest, resp *res
 				MarkdownDescription: "Node Tags",
 				Optional:            true,
 				ElementType:         types.StringType,
+			},
+			"status": schema.StringAttribute{
+				MarkdownDescription: "Node Status",
+				Computed:            true,
 			},
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -354,6 +359,7 @@ func (nodeModel *NodeModel) write(node *cloudv1.Node) {
 	nodeModel.BillingPeriod = types.StringValue(node.BillingPeriod.String())
 	nodeModel.ImageID = types.StringValue(node.Image.Id)
 	nodeModel.Id = types.StringValue(node.Id)
+	nodeModel.Status = types.StringValue(node.Status.String())
 	if nodeIP := nodeModel.getPrimaryIP(node); nodeIP != nil {
 		nodeModel.IP = types.StringValue(*nodeIP)
 	}
