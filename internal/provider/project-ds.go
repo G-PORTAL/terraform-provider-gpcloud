@@ -99,7 +99,7 @@ func (d *ProjectDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		return
 	}
 	data.write(projectResponse.Project)
-	resp.Diagnostics.AddError("Project not found", fmt.Sprintf("Project %s not found", data.Id.ValueString()))
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (data *ProjectDataSourceModel) write(project *cloudv1.Project) {
