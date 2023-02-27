@@ -53,5 +53,6 @@ resource "gpcloud_node" "example" {
 
 - `id` (String) Node ID
 - `ip` (String) IP Address of the node
+- `status` (String) Node Status
 
 
