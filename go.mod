@@ -3,8 +3,8 @@ module github.com/G-PORTAL/terraform-provider-gpcloud
 go 1.18
 
 require (
-	buf.build/gen/go/gportal/gportal-cloud/protocolbuffers/go v1.28.1-20230221141041-366e58b4c120.4
-	github.com/G-PORTAL/gpcloud-go v0.0.0-20230221142817-618dacbcc88e
+	buf.build/gen/go/gportal/gportal-cloud/protocolbuffers/go v1.29.0-20230315124426-ca1321035e2e.1
+	github.com/G-PORTAL/gpcloud-go v0.0.0-20230315125939-7da2ab3017e6
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/terraform-plugin-docs v0.13.0
 	github.com/hashicorp/terraform-plugin-framework v1.1.1
@@ -14,16 +14,16 @@ require (
 )
 
 require (
-	buf.build/gen/go/gportal/gportal-cloud/grpc/go v1.2.0-20230221141041-366e58b4c120.4 // indirect
+	buf.build/gen/go/gportal/gportal-cloud/grpc/go v1.3.0-20230315124426-ca1321035e2e.1 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1 // indirect
 	github.com/Masterminds/sprig/v3 v3.2.2 // indirect
-	github.com/Nerzal/gocloak/v12 v12.0.0 // indirect
+	github.com/Nerzal/gocloak/v13 v13.1.0 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/go-resty/resty/v2 v2.7.0 // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-checkpoint v0.5.0 // indirect
@@ -60,11 +60,11 @@ require (
 	github.com/vmihailenco/tagparser v0.1.1 // indirect
 	github.com/zclconf/go-cty v1.12.1 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
-	golang.org/x/mod v0.7.0 // indirect
-	golang.org/x/net v0.6.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/mod v0.8.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
+	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/text v0.8.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
+	google.golang.org/protobuf v1.29.0 // indirect
 )

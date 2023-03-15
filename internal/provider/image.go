@@ -104,17 +104,19 @@ func (d *ImageDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	if err != nil {
 		resp.Diagnostics.AddError("Error while fetching image list", err.Error())
 	}
-	for _, image := range imageList.Images {
-		if image.Name == data.Name.ValueString() {
-			data.Id = types.StringValue(image.Id)
-			data.Name = types.StringValue(image.Name)
-			authTypes := make([]attr.Value, 0)
-			for _, authType := range image.AuthenticationTypes {
-				authTypes = append(authTypes, types.StringValue(authType.String()))
+	for _, os := range imageList.OperatingSystems {
+		for _, image := range os.Images {
+			if image.Name == data.Name.ValueString() {
+				data.Id = types.StringValue(image.Id)
+				data.Name = types.StringValue(image.Name)
+				authTypes := make([]attr.Value, 0)
+				for _, authType := range image.AuthenticationTypes {
+					authTypes = append(authTypes, types.StringValue(authType.String()))
+				}
+				data.AuthenticationTypes, _ = types.ListValue(types.StringType, authTypes)
+				resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+				return
 			}
-			data.AuthenticationTypes, _ = types.ListValue(types.StringType, authTypes)
-			resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-			return
 		}
 	}
 	resp.Diagnostics.AddError("Image not found", fmt.Sprintf("Image with name %s not found", data.Name.ValueString()))
