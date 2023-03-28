@@ -3,7 +3,7 @@ module github.com/G-PORTAL/terraform-provider-gpcloud
 go 1.18
 
 require (
-	buf.build/gen/go/gportal/gportal-cloud/protocolbuffers/go v1.29.0-20230315124426-ca1321035e2e.1
+	buf.build/gen/go/gportal/gportal-cloud/protocolbuffers/go v1.30.0-20230328114243-63735a23a585.1
 	github.com/G-PORTAL/gpcloud-go v0.0.0-20230315125939-7da2ab3017e6
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/terraform-plugin-docs v0.13.0
@@ -66,5 +66,5 @@ require (
 	golang.org/x/text v0.8.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
-	google.golang.org/protobuf v1.29.0 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
 )
