@@ -32,10 +32,11 @@ type Project struct {
 
 // ProjectModel describes the resource data model.
 type ProjectModel struct {
-	Name        types.String `tfsdk:"name"`
-	Description types.String `tfsdk:"description"`
-	Environment types.String `tfsdk:"environment"`
-	Id          types.String `tfsdk:"id"`
+	Name             types.String `tfsdk:"name"`
+	Description      types.String `tfsdk:"description"`
+	Environment      types.String `tfsdk:"environment"`
+	BillingProfileId types.String `tfsdk:"billing_profile_id"`
+	Id               types.String `tfsdk:"id"`
 }
 
 func (r *Project) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -63,6 +64,13 @@ func (r *Project) Schema(ctx context.Context, req resource.SchemaRequest, resp *
 				Required:            true,
 				Validators: []validator.String{
 					gpcloudvalidator.ProjectEnvironmentValidator{},
+				},
+			},
+			"billing_profile_id": schema.StringAttribute{
+				MarkdownDescription: "Billing Profile ID",
+				Required:            true,
+				Validators: []validator.String{
+					gpcloudvalidator.UUIDStringValidator{},
 				},
 			},
 			"id": schema.StringAttribute{
@@ -107,9 +115,10 @@ func (r *Project) Create(ctx context.Context, req resource.CreateRequest, resp *
 	}
 
 	createResponse, err := r.client.CloudClient().CreateProject(context.Background(), &cloudv1.CreateProjectRequest{
-		Name:        data.Name.ValueString(),
-		Description: data.Description.ValueString(),
-		Environment: cloudv1.ProjectEnvironment(cloudv1.ProjectEnvironment_value[data.Environment.ValueString()]),
+		Name:             data.Name.ValueString(),
+		Description:      data.Description.ValueString(),
+		Environment:      cloudv1.ProjectEnvironment(cloudv1.ProjectEnvironment_value[data.Environment.ValueString()]),
+		BillingAddressId: data.BillingProfileId.ValueString(),
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create project, got error: %s", err))
@@ -152,10 +161,11 @@ func (r *Project) Update(ctx context.Context, req resource.UpdateRequest, resp *
 	}
 
 	updateResponse, err := r.client.CloudClient().UpdateProject(context.Background(), &cloudv1.UpdateProjectRequest{
-		Id:          data.Id.ValueString(),
-		Name:        data.Name.ValueString(),
-		Description: data.Description.ValueString(),
-		Environment: cloudv1.ProjectEnvironment(cloudv1.ProjectEnvironment_value[data.Environment.ValueString()]),
+		Id:               data.Id.ValueString(),
+		Name:             data.Name.ValueString(),
+		Description:      data.Description.ValueString(),
+		Environment:      cloudv1.ProjectEnvironment(cloudv1.ProjectEnvironment_value[data.Environment.ValueString()]),
+		BillingAddressId: data.BillingProfileId.ValueString(),
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update project, got error: %s", err))
@@ -198,6 +208,7 @@ func (data *ProjectModel) write(project *cloudv1.Project) {
 	data.Id = types.StringValue(project.Id)
 	data.Name = types.StringValue(project.Name)
 	data.Environment = types.StringValue(project.Environment.String())
+	data.BillingProfileId = types.StringValue(project.BillingProfile.Id)
 	if project.Description != "" {
 		data.Description = types.StringValue(project.Description)
 	}
