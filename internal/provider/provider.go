@@ -124,6 +124,7 @@ func (p *GPCloudProvider) Resources(ctx context.Context) []func() resource.Resou
 		NewSSHKey,
 		NewNode,
 		NewProjectImage,
+		NewBillingProfile,
 	}
 }
 

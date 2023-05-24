@@ -19,9 +19,10 @@ Each project can have its own billing address, payment methods, members or envir
 
 ```terraform
 resource "gpcloud_project" "example" {
-  name        = "example-project"
-  description = "Example project"
-  environment = "PROJECT_ENVIRONMENT_DEVELOPMENT"
+  name               = "example-project"
+  description        = "Example project"
+  environment        = "PROJECT_ENVIRONMENT_DEVELOPMENT"
+  billing_profile_id = "40c5b014-7817-4e0f-8957-ee0551b5c07f"
 }
 ```
 
@@ -30,6 +31,7 @@ resource "gpcloud_project" "example" {
 
 ### Required
 
+- `billing_profile_id` (String) Billing Profile ID
 - `description` (String) Project Description
 - `environment` (String) Project Environment
 - `name` (String) Name of the project
