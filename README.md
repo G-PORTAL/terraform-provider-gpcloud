@@ -8,6 +8,7 @@ Implemented Resources:
 - [x] `gpcloud_project` - The GPCloud Project resource
 - [x] `gpcloud_project_image` - The GPCloud Project Image resource (Custom image)
 - [x] `gpcloud_sshkey` - The GPCloud SSH-Key resource
+- [x] `gpcloud_billing_profile` - The GPCloud Billing Profile resource
 
 Implemented Data sources:
 - [x] `gpcloud_project` - The GPCloud Project data source (read-only)
@@ -43,7 +44,7 @@ terraform {
     gpcloud = {
       source = "G-PORTAL/gpcloud"
       # Ensure to use the latest version of the provider
-      version = "0.1.2"
+      version = "0.1.4"
     }
   }
 }
