@@ -1,3 +1,6 @@
+# LEGACY
+This project moved to a new location. The most recent version of the terraform provider is available at [G-PORTAL/terraform-provider-gpcore](https://github.com/G-PORTAL/terraform-provider-gpcore)
+
 # Terraform Provider GPCloud
 
 This repository is a Terraform provider for [GPCloud](https://g-portal.cloud).
